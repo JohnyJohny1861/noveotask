@@ -1,0 +1,21 @@
+.VideoList {
+    margin: 20px 0;
+    cursor: pointer;
+}
+
+.listItem {
+    transition: all .1s ease-in-out;
+}
+.listItem:hover {
+    background-color: #efefef;
+}
+
+
+.playIcon {
+    width: 25px;
+    margin-right: 12px;
+}
+
+.videName {
+
+}

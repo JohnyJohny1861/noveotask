@@ -1,0 +1,57 @@
+.VideoPlayer {
+    position: relative;
+}
+
+.video {
+    width: 100%;
+}
+.video::-webkit-media-controls {
+    display: none;
+}
+
+.controls {
+    position: absolute;
+    bottom: 8px; left: 0;
+    padding: 0 4px;
+    width: 100%;
+    display: flex;
+    align-items: center;
+}
+.playPause {
+    width: 20px;
+    margin-right: 5px;
+    cursor: pointer;
+}
+.range {
+    position: relative;
+    flex: 1;
+    height: 4px;
+}
+.rangeEmpty, .rangeFill {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%;
+    height: 100%;
+    border-radius: 4px;
+}
+.rangeEmpty {
+    background-color: #efefef;
+    z-index: 1;
+}
+.rangeFill {
+    background-color: #ff1f3d;
+    z-index: 2;
+}
+
+.durations {
+    margin: 0 5px;
+    padding: 3px 4px;
+    display: flex;
+    align-items: center;
+    background-color: #00000046;
+}
+.durLeft, .durTotal {
+    line-height: 1;
+    font-size: 12px;
+    color: #fff;
+}
