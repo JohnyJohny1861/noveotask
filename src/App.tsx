@@ -1,43 +1,47 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect } from 'react';
 import styles from './App.module.css';
 import UploadVideo from './components/UploadVideo/index';
 import VideoList from './components/VideoList';
 
 import { getVideoFiles } from './components/VideoList/query';
+import { VideosType } from './components/VideoList/types';
+import Alert from './UI/Alert';
+import {Props as AlertType} from './UI/Alert/types';
 
 const testVideos = [
   { 
+    id: 1,
     name: 'Elephants Dream', 
     url: 'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4'
   }, 
   { 
+    id: 2,
     name: 'Big Buck Bunny', 
     url: 'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4'
   },
   { 
+    id: 3,
     name: 'For Bigger Blazes',
     url: 'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4'
   },
 ];
 
 function App() {
-  const [alertMsg, setAlertMsg] = useState<string | undefined>(undefined);
+  const [alert, setAlert] = useState<AlertType>({msg: '', type: ''});
   const [loading, setLoading] = useState<boolean>(false);
-  const [videos, setVideos] = useState<{name: string, url: string}[]>(testVideos);
+  const [videos, setVideos] = useState<VideosType>(testVideos);
 
   useEffect(() => {
-    let cancel = false;
-    !cancel && getVideos();
-    return () => { cancel = true; }
+    getVideos();
   }, []);
 
   useEffect(() => {
-    let timer: any;
-    if(alertMsg) {
-      timer = setTimeout(() => { setAlertMsg(undefined) }, 3000);
+    let timer: ReturnType<typeof setTimeout>;
+    if(alert) {
+      timer = setTimeout(() => { setAlert({msg: '', type: ''}) }, 3000);
     }
     return () => { clearTimeout(timer) }
-  }, [alertMsg]);
+  }, [alert]);
 
   let getVideos = async() => {
     setLoading(true);
@@ -45,19 +49,23 @@ function App() {
     if(data) {
       setVideos(data);
     } else if(error) {
-      setAlertMsg(error);
+      setAlert({msg: error, type: 'danger'});
     }
     setLoading(false);
   }
-
-  const onFileUploaded = useCallback(() => {
-    getVideos();
-  }, [])
   
   return (
     <div className={styles.App}>
-      <UploadVideo onFileUploaded={onFileUploaded} />
-      <VideoList loading={loading} videos={videos} alertMsg={alertMsg} />
+      <Alert {...alert} />
+      <UploadVideo 
+        onFileUploaded={getVideos} 
+        setAlert={setAlert}
+        setLoading={setLoading}
+      />
+      <VideoList 
+        loading={loading} 
+        videos={videos} 
+      />
     </div>
   );
 }

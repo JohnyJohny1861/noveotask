@@ -1,12 +1,19 @@
-import axios from '../../axios';
 
-export const getVideoFiles = async() => {
-    let data, error;
+import { AxiosResponse, AxiosError } from 'axios';
+import axios from '../../axios';
+import { VideosType } from './types';
+
+export type GetVideoFilesType = { 
+    data: VideosType | null,
+    error: string | null
+}
+
+export const getVideoFiles = async(): Promise<GetVideoFilesType> => {
     try {
-        const res = await axios('/files', { method: 'GET' });
-        data = res.data
-    } catch(err) {
-        error = 'Oops something went wrong'
+        const {data}:AxiosResponse = await axios('files', { method: 'GET' });
+        return { data, error: null }
+    } catch(error) {
+        const err = error as AxiosError;        
+        return { data: null, error: err.response?.data || 'Oops something went wrong' }
     }
-    return { data, error }
 }

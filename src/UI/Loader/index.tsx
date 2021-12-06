@@ -1,6 +1,6 @@
 import { Spinner } from "react-bootstrap"
 
-const index = () => {
+const Loader = () => {
     return (
         <div className="d-flex justify-content-center p-3">
             <Spinner animation="border" role="status"></Spinner>
@@ -8,4 +8,4 @@ const index = () => {
     )
 }
 
-export default index;
+export default Loader;

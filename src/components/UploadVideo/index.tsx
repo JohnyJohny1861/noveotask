@@ -2,7 +2,6 @@ import { Component, RefObject, createRef } from 'react';
 import styles from './style.module.css';
 
 import { Form, Button } from 'react-bootstrap';
-import Alert from '../../UI/Alert';
 import { Props, State } from './types';
 import { uploadVideo } from './query';
 
@@ -15,50 +14,36 @@ class UploadVideo extends Component<Props, State> {
         this.fileInpRef = createRef();
     }
 
-    state: State = {
-        alertType: undefined,
-        alertMsg: undefined
-    };
-
-    componentDidUpdate = () => {
-        if(this.state.alertMsg) {
-            this.timer = setTimeout(() => {
-                this.setState({
-                    alertType: undefined,
-                    alertMsg: undefined
-                })
-            }, 3000);
-        }
-    }
     componentWillUnmount = () => { clearTimeout(this.timer) }
 
     onSubmit = async() => {
         let files = this.fileInpRef.current?.files;
         if(files && files[0]) {
-           const { data, error } = await uploadVideo(files[0]);
+            this.props.setLoading(true);
+            const { data, error } = await uploadVideo(files[0]);
             if(data) {
-                this.setState({
-                    alertMsg: 'Video uploaded successfully',
-                    alertType: 'success'
+                this.props.setAlert({
+                    msg: 'Video uploaded successfully',
+                    type: 'success'
                 });
-                this.props.onFileUploaded()
+                if(this.fileInpRef.current) {
+                    this.fileInpRef.current.value = '';
+                }
+                this.props.onFileUploaded();
             } 
-            else {
-                this.setState({
-                    alertMsg: error,
-                    alertType: 'danger'
+            else if(error) {
+                this.props.setAlert({
+                    msg: error,
+                    type: 'danger'
                 })
             }
+            this.props.setLoading(false);
         }
     }
 
     render() {
         return (
             <>
-                <Alert 
-                    type={this.state.alertType} 
-                    alert={this.state.alertMsg} 
-                />
                 <div className={styles.UploadVideo}>
                     <Form.Control
                         ref={this.fileInpRef}
@@ -68,7 +53,7 @@ class UploadVideo extends Component<Props, State> {
                         variant="primary" 
                         type="submit"
                         onClick={this.onSubmit}
-                        className="ms-3">Primary
+                        className="ms-3">Upload
                     </Button>
                 </div>
             </>

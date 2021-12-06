@@ -14,7 +14,7 @@ const VideoPlayer:FC<{src: string}> = ({src}) => {
             play ? video.pause() : video.play();
             setPlay(!play);
         }
-    }, [play])
+    }, [play]);
 
     const onTimeUpdate = useCallback(() => {
         if(videoRef.current) {
@@ -25,13 +25,13 @@ const VideoPlayer:FC<{src: string}> = ({src}) => {
         }
     }, []);
 
-    const onEnded = () => {
+    const onEnded = useCallback(() => {
         if(videoRef.current) {
             videoRef.current.currentTime = 0;
             setPlay(false);
             setProgress(0);
         }
-    }
+    }, []);
 
     return (
         <div className={styles.VideoPlayer}>
