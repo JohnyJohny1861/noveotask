@@ -10,7 +10,7 @@ export const uploadVideo = async(file: File): Promise<UploadVideoType> => {
     let formData = new FormData();
     formData.append('video', file);
     try {
-        const {data}:AxiosResponse = await axios('upload', {
+        const {data}:AxiosResponse<string> = await axios('upload', {
             method: 'POST',
             data: formData,
             headers: { "Content-Type": "multipart/form-data" }

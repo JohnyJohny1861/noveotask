@@ -10,7 +10,7 @@ export type GetVideoFilesType = {
 
 export const getVideoFiles = async(): Promise<GetVideoFilesType> => {
     try {
-        const {data}:AxiosResponse = await axios('files', { method: 'GET' });
+        const {data}:AxiosResponse<VideosType> = await axios('files', { method: 'GET' });
         return { data, error: null }
     } catch(error) {
         const err = error as AxiosError;        

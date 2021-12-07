@@ -1,4 +1,4 @@
-import { FC, useState, useRef, useCallback } from "react";
+import { FC, useState, useRef } from "react";
 import styles from './style.module.css';
 import playIcon from '../../assets/playIcon.png';
 import pauseIcon from '../../assets/pauseIcon.png';
@@ -8,30 +8,30 @@ const VideoPlayer:FC<{src: string}> = ({src}) => {
     const [play, setPlay] = useState<boolean>(false);
     const [progress, setProgress] = useState(0);
 
-    const onPlay = useCallback(() => {
+    const onPlay = () => {
         if(videoRef.current) {
             const video = videoRef.current;
             play ? video.pause() : video.play();
             setPlay(!play);
         }
-    }, [play]);
+    };
 
-    const onTimeUpdate = useCallback(() => {
+    const onTimeUpdate = () => {
         if(videoRef.current) {
             const video = videoRef.current;
             const duration = video.duration;
             const curTime = video.currentTime;
             setProgress((curTime / duration) * 100);
         }
-    }, []);
+    };
 
-    const onEnded = useCallback(() => {
+    const onEnded = () => {
         if(videoRef.current) {
             videoRef.current.currentTime = 0;
             setPlay(false);
             setProgress(0);
         }
-    }, []);
+    };
 
     return (
         <div className={styles.VideoPlayer}>
