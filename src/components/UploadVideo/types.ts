@@ -1,4 +1,4 @@
-import { Props as AlertProps } from "../../UI/Alert/types"
+import { Props as AlertProps } from '../../UI/Alert/types';
 
 export type Props = {
     setAlert: (val:AlertProps) => void

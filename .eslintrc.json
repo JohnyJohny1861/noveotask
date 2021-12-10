@@ -39,10 +39,13 @@
             "error",
             { "allowExpressions": true }
         ],
-        "react-hooks/rules-of-hooks": "error",
+        "react-hooks/rules-of-hooks": "warn",
         "react-hooks/exhaustive-deps": "warn",
         "import/prefer-default-export": "off",
-        "react/react-in-jsx-scope": "off"
+        "react/react-in-jsx-scope": "off",
+        "linebreak-style": 0,
+        "indent": "off",
+        "no-tabs": 0
     },
     "settings": {
         "import/resolver": {

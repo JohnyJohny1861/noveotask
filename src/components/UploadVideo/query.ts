@@ -1,24 +1,24 @@
 import { AxiosResponse, AxiosError } from 'axios';
 import axios from '../../axios';
 
-export type UploadVideoType = { 
+export type UploadVideoType = {
     data: string | null,
     error: string | null
 }
 
-export const uploadVideo = async(file: File): Promise<UploadVideoType> => {
-    let formData = new FormData();
+export const uploadVideo = async (file: File): Promise<UploadVideoType> => {
+    const formData = new FormData();
     formData.append('video', file);
     try {
-        const {data}:AxiosResponse<string> = await axios('upload', {
+        const { data }:AxiosResponse<string> = await axios('upload', {
             method: 'POST',
             data: formData,
-            headers: { "Content-Type": "multipart/form-data" }
+            headers: { 'Content-Type': 'multipart/form-data' },
         });
-        return { data, error: null }
-    } catch(error) {
+        return { data, error: null };
+    } catch (error) {
         const err = error as AxiosError;
         console.log(err.response?.data);
-        return { data: null, error: err.response?.data || 'Oops something went wrong' }
+        return { data: null, error: err.response?.data || 'Oops something went wrong' };
     }
-}
+};
